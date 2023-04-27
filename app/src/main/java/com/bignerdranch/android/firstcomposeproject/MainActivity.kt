@@ -52,18 +52,16 @@ private fun test(viewModel: MainViewModel) {
                 .background(MaterialTheme.colors.background)
         ) {
             val models = viewModel.models.observeAsState(listOf())
-            LazyColumn{
-                items(models.value){model->
+            LazyColumn {
+                items(models.value) { model ->
                     InstagramCard(
                         model = model,
-onFollowedClickListener = {
-    viewModel.updateFollow(it)
-}
+                        onFollowedClickListener = {
+                            viewModel.updateFollow(it)
+                        }
                     )
                 }
             }
-
-
         }
     }
 } 
