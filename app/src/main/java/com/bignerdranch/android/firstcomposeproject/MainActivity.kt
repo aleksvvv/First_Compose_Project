@@ -7,7 +7,13 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,20 +44,32 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun test(viewModel: MainViewModel) {
-        FirstComposeProjectTheme() {
+    FirstComposeProjectTheme() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background)
         ) {
 
-            val scrollState = rememberScrollState()
-            Column(
-                modifier = Modifier.verticalScroll(scrollState)
-            ) {
-                repeat(100) {
+            LazyColumn() {
+                item {
+                    Text(text = "Title")
+                }
+                item{
+                    Image(painter = painterResource(id = R.drawable.ic_instagramm),
+                        contentDescription = null)
+                }
+                items(10){
                     InstagramCard(viewModel)
                 }
+                item{
+                    Image(painter = painterResource(id = R.drawable.ic_instagramm),
+                        contentDescription = null)
+                }
+                items(100000) {
+                    InstagramCard(viewModel)
+                }
+
             }
         }
     }
