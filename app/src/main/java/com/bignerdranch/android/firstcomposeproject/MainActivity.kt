@@ -3,9 +3,9 @@ package com.bignerdranch.android.firstcomposeproject
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.ScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -24,13 +24,35 @@ class MainActivity : ComponentActivity() {
         setContent {
             val viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-            FirstComposeProjectTheme() {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colors.background)) {
+            test(viewModel = viewModel)
+//            FirstComposeProjectTheme() {
+//                Box(modifier = Modifier
+//                    .fillMaxSize()
+//                    .background(MaterialTheme.colors.background)) {
+//                    InstagramCard(viewModel)
+//                }
+//            }
+        }
+    }
+}
+
+@Composable
+private fun test(viewModel: MainViewModel) {
+        FirstComposeProjectTheme() {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.background)
+        ) {
+
+            val scrollState = rememberScrollState()
+            Column(
+                modifier = Modifier.verticalScroll(scrollState)
+            ) {
+                repeat(100) {
                     InstagramCard(viewModel)
                 }
             }
         }
     }
-}
+} 

@@ -102,7 +102,6 @@ private fun FollowButton(
             "Follow"
         }
         Text(text = text)
-
     }
 }
 
