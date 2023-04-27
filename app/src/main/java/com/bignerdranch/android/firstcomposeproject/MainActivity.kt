@@ -8,7 +8,14 @@ import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -16,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -24,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import com.bignerdranch.android.firstcomposeproject.ui.theme.FirstComposeProjectTheme
 import com.bignerdranch.android.firstcomposeproject.ui.theme.InstagramCard
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,14 +54,16 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun test(viewModel: MainViewModel) {
-    FirstComposeProjectTheme() {
+    FirstComposeProjectTheme {
+        val scope = rememberCoroutineScope()
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background)
         ) {
             val models = viewModel.models.observeAsState(listOf())
-            LazyColumn {
+            val lazyList = rememberLazyListState()
+            LazyColumn(state = lazyList) {
                 items(models.value) { model ->
                     InstagramCard(
                         model = model,
@@ -61,6 +72,13 @@ private fun test(viewModel: MainViewModel) {
                         }
                     )
                 }
+            }
+            FloatingActionButton(onClick = {
+                scope.launch {
+                    lazyList.scrollToItem(3)
+                }
+                }) {
+                
             }
         }
     }
