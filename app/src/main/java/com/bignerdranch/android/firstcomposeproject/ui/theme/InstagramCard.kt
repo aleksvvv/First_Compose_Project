@@ -1,5 +1,6 @@
 package com.bignerdranch.android.firstcomposeproject.ui.theme
 
+import android.view.View.OnClickListener
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,16 +19,16 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bignerdranch.android.firstcomposeproject.InstagramModel
 import com.bignerdranch.android.firstcomposeproject.MainViewModel
 import com.bignerdranch.android.firstcomposeproject.R
 
 
 @Composable
 fun InstagramCard(
-    viewModel: MainViewModel
+    model: InstagramModel,
+    onFollowedClickListener: (InstagramModel)->Unit
 ) {
-    val isFollowed =
-        viewModel.isFollowing.observeAsState(false)
 
     Card(
         modifier = Modifier.padding(8.dp),
@@ -61,18 +62,18 @@ fun InstagramCard(
                 TwoText(title = "Following", count = "76")
             }
             Text(
-                text = "Instagram",
+                text = "Instagram ${model.id}",
                 fontSize = 32.sp,
                 fontFamily = FontFamily.Cursive
             )
             Text(
-                text = "#YoursToMake",
+                text = "# ${model.title}",
             )
             Text(
                 text = "www.facebook.com/lll",
             )
-            FollowButton(isFollowed = isFollowed.value) {
-                viewModel.ChangeFollow()
+            FollowButton(isFollowed = model.isFollowed) {
+                onFollowedClickListener(model)
             }
         }
     }

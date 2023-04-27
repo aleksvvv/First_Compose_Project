@@ -15,6 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -50,27 +51,19 @@ private fun test(viewModel: MainViewModel) {
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background)
         ) {
-
-            LazyColumn() {
-                item {
-                    Text(text = "Title")
+            val models = viewModel.models.observeAsState(listOf())
+            LazyColumn{
+                items(models.value){model->
+                    InstagramCard(
+                        model = model,
+onFollowedClickListener = {
+    viewModel.updateFollow(it)
+}
+                    )
                 }
-                item{
-                    Image(painter = painterResource(id = R.drawable.ic_instagramm),
-                        contentDescription = null)
-                }
-                items(10){
-                    InstagramCard(viewModel)
-                }
-                item{
-                    Image(painter = painterResource(id = R.drawable.ic_instagramm),
-                        contentDescription = null)
-                }
-                items(100000) {
-                    InstagramCard(viewModel)
-                }
-
             }
+
+
         }
     }
 } 
