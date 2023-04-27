@@ -36,6 +36,12 @@ class MainViewModel : ViewModel() {
         }
             _models.value = modifiedModels
     }
+    fun deleteModel(model: InstagramModel){
+        val modifiedModels =
+            _models.value?.toMutableList() ?: mutableListOf()
+        modifiedModels.remove(model)
+        _models.value = modifiedModels
+    }
 //    private val _isFollowing = MutableLiveData<Boolean>()
 //    val isFollowing: LiveData<Boolean> = _isFollowing
 
